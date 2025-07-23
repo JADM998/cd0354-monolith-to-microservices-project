@@ -6,7 +6,7 @@
 # https://github.com/docker/build-push-action?tab=readme-ov-file#path-context
 
 #I have also created the secrets and variables required for this to work in my forked repository
-name: ApiFeedCIPipeline
+name: FrontendCIPipeline
 
 on:
     push:
