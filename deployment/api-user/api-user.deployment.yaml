@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  labels:
+    app: user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+      - name: user
+        image: jadm998/udagram-api-user:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - name: aws-creds
+            mountPath: /root/.aws
+            readOnly: true
+        env:
+          - name: AWS_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: AWS_BUCKET
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: JWT_SECRET
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: POSTGRES_DB
+          - name: POSTGRES_HOST
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: POSTGRES_HOST
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: POSTGRES_PASSWORD
+          - name: POSTGRES_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: POSTGRES_USERNAME
+          - name: AWS_REGION
+            valueFrom:
+              configMapKeyRef:
+                name: my-config
+                key: AWS_REGION
+      volumes:
+        - name: aws-creds
+          secret:
+            secretName: aws-credentials
+            items:
+              - key: credentials
+                path: credentials
+
