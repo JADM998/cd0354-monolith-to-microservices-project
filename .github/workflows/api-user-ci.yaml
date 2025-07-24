@@ -14,6 +14,7 @@ on:
             - 'main'
         paths:
             - 'udagram-api-user/**'
+            - '.github/workflows/api-user-ci.yaml'
 
 jobs:
     build-push-image:
@@ -39,5 +40,5 @@ jobs:
                 with:
                     context: ./udagram-api-user
                     push: true
-                    tags: ${{vars.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_API_USER_PROJECT}}
+                    tags: ${{vars.DOCKERHUB_USERNAME}}/${{secrets.DOCKERHUB_API_USER_PROJECT}}:latest
 
